@@ -187,22 +187,5 @@ footer{margin-top:40px;text-align:center}
   }
 })();
 </script>
-<div id="dbg" style="font:12px monospace;padding:10px;margin:10px;background:#fff;color:#000;word-break:break-all"></div>
-<script>
-(function(){
-  var d=document.getElementById('dbg');
-  function log(t){d.textContent+=t+' | ';}
-  var T=window.Telegram;
-  log('WebApp:'+!!(T&&T.WebApp));
-  log('ver:'+(T&&T.WebApp?T.WebApp.version:'-'));
-  log('platform:'+(T&&T.WebApp?T.WebApp.platform:'-'));
-  log('proxy:'+!!window.TelegramWebviewProxy);
-  log('hash:'+location.hash.slice(0,30));
-  document.addEventListener('click',function(e){
-    var a=e.target.closest&&e.target.closest('a[data-url]');
-    log('click:'+(a?a.getAttribute('data-url'):'no link'));
-  },true);
-})();
-</script>
 </body>
 </html>
