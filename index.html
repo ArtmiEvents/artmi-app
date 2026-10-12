@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ArtMi events</title>
+<script src="telegram-web-app.js"></script>
+<script>
+/* ===== меняете только этот блок ===== */
+window.KK_DATA = {
+  header: {
+    kicker: "ArtMi events",
+    title: ["Творческие события", "для тех, кто любит красиво"],
+    text: "Мастер-классы, девичники, КМВ и организация любых мероприятий."
+  },
+  cta: {
+    title: "Выберите свой мастер-класс",
+    text: "Мы организуем самые красивые и творческие мероприятия. Всё необходимое уже подготовлено, вам остаётся прийти и создать.",
+    button: "Перейти в канал",
+    url: "https://t.me/artmi_an5"
+  },
+  cards: [
+    {
+      title: "Мастер-класс: артборд «Луна» с подсветкой",
+      sub: "Стоимость участия 3000₽. В неё входит: мастер-класс, все нужные материалы и напиток от кофейни",
+      url: "https://t.me/artmi_an5/156"
+    },
+    {
+      title: "Мастер-класс на день рождения",
+      sub: "Красивая работа своими руками",
+      url: "https://t.me/artmi_an5/153"
+    },
+    {
+      title: "Летний лагерь",
+      sub: "Каждый день творческие мастер-классы и дружеская атмосфера",
+      url: "https://t.me/artmi_an5/149"
+    },
+    {
+      title: "Мастер-класс по созданию дизайна вазы",
+      sub: "Воплоти красоту своих рук в жизнь",
+      url: "https://t.me/artmi_an5/143"
+    }
+  ],
+  footer: { name: "ArtMi events", school: "Студия творческих мероприятий" },
+  colors: { bg: "#DCEBFA" }
+};
+/* ===== конец блока ===== */
+</script>
+<style>
+:root{
+  --bg:#DCEBFA; --bg2:#CFE2F6;
+  --paper:#FFFFFF; --milk:#FBF8F4; --grey:#EEF1F5;
+  --ink:#2B3A55; --ink-soft:#5A6784;
+  --pink:#F4A3C0; --pink-d:#E888AB;
+  --serif:'Playfair Display',Georgia,'Times New Roman',serif;
+  --sans:'Nunito',-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;
+  padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+.wrap{max-width:560px;margin:0 auto;padding:40px 22px 32px}
+.kicker{font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--pink-d)}
+h1{font-family:var(--serif);font-weight:700;font-size:34px;line-height:1.15;margin:14px 0 14px}
+h1 span{display:block}
+.lead{color:var(--ink-soft);font-size:17px;max-width:420px}
+.cta{background:var(--milk);border-radius:28px;padding:30px 26px;margin:36px 0 28px;
+  box-shadow:0 10px 30px rgba(43,58,85,.08);position:relative;overflow:hidden}
+.cta::before{content:"";position:absolute;right:-30px;top:-30px;width:110px;height:110px;border-radius:50%;background:var(--pink);opacity:.35}
+.cta h2{font-family:var(--serif);font-size:25px;line-height:1.25;margin-bottom:12px;position:relative}
+.cta p{color:var(--ink-soft);margin-bottom:22px;position:relative}
+.btn{display:inline-block;background:var(--pink);color:var(--ink);font-weight:800;text-decoration:none;
+  padding:15px 28px;border-radius:999px;position:relative;transition:transform .15s,background .15s}
+.btn:active{transform:scale(.97);background:var(--pink-d)}
+.list{display:flex;flex-direction:column;gap:14px}
+.card{display:flex;align-items:center;gap:16px;background:var(--paper);color:var(--ink);text-decoration:none;
+  border-radius:24px;padding:20px 18px;box-shadow:0 6px 20px rgba(43,58,85,.07);transition:transform .15s}
+.card:active{transform:scale(.985)}
+.num{flex:none;width:42px;height:42px;border-radius:50%;background:var(--grey);display:flex;align-items:center;
+  justify-content:center;font-family:var(--serif);font-weight:700;font-size:17px}
+.body{flex:1;min-width:0}
+.ct{font-family:var(--serif);font-weight:700;font-size:18px;line-height:1.3}
+.cs{font-size:13px;color:var(--ink-soft);margin-top:5px;line-height:1.45}
+.arr{flex:none;width:34px;height:34px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center}
+.arr svg{width:16px;height:16px;stroke:var(--ink);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+a:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+footer{margin-top:40px;text-align:center}
+.fn{font-family:var(--serif);font-weight:700;font-size:18px}
+.fs{font-size:13px;color:var(--ink-soft);margin-top:4px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+(function(){
+  var D = window.KK_DATA;
+  var h = location.hash || "", s = location.search || "";
+  var inTG = /tgWebApp/.test(h) || /tgWebApp/.test(s) ||
+    !!window.TelegramWebviewProxy ||
+    !!(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.performAction);
+  var tg = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
+
+  function esc(t){return String(t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+  var target = inTG ? "_self" : "_blank";
+  var rel = inTG ? "" : ' rel="noopener noreferrer"';
+  var arrow = '<span class="arr"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>';
+
+  var html = '<header><div class="kicker">'+esc(D.header.kicker)+'</div><h1>'+
+    D.header.title.map(function(t){return '<span>'+esc(t)+'</span>';}).join('')+
+    '</h1><p class="lead">'+esc(D.header.text)+'</p></header>'+
+    '<section class="cta"><h2>'+esc(D.cta.title)+'</h2><p>'+esc(D.cta.text)+'</p>'+
+    '<a class="btn" href="'+esc(D.cta.url)+'" data-url="'+esc(D.cta.url)+'" target="'+target+'"'+rel+'>'+esc(D.cta.button)+'</a></section>'+
+    '<main class="list">'+D.cards.map(function(c,i){
+      return '<a class="card" href="'+esc(c.url)+'" data-url="'+esc(c.url)+'" target="'+target+'"'+rel+'>'+
+        '<span class="num">'+(i+1)+'</span><span class="body"><div class="ct">'+esc(c.title)+'</div><div class="cs">'+esc(c.sub)+'</div></span>'+arrow+'</a>';
+    }).join('')+'</main>'+
+    '<footer><div class="fn">'+esc(D.footer.name)+'</div><div class="fs">'+esc(D.footer.school)+'</div></footer>';
+  document.getElementById('app').innerHTML = html;
+
+  function send(name, data){
+    var json = JSON.stringify(data || {});
+    try{
+      if (window.TelegramWebviewProxy && window.TelegramWebviewProxy.postEvent){
+        window.TelegramWebviewProxy.postEvent(name, json);
+      } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.performAction){
+        window.webkit.messageHandlers.performAction.postMessage({eventType:name, eventData:data || {}});
+      } else if (window.parent && window.parent !== window){
+        window.parent.postMessage(JSON.stringify({eventType:name, eventData:data || {}}), "*");
+      }
+    }catch(e){}
+  }
+
+  function openUrl(url){
+    var isTme = url.indexOf("https://t.me/") === 0;
+    if (tg){
+      if (isTme){
+        try{ tg.close(); }catch(e){}
+        try{ tg.openTelegramLink(url); }catch(e){}
+      } else {
+        try{ tg.openLink(url); }catch(e){}
+      }
+    } else {
+      if (isTme){
+        send("web_app_close");
+        send("web_app_open_tg_link", {path_full: url.replace("https://t.me","")});
+      } else {
+        send("web_app_open_link", {url: url});
+      }
+    }
+  }
+
+  if (inTG){
+    var links = document.querySelectorAll('a[data-url]');
+    Array.prototype.forEach.call(links, function(a){
+      a.addEventListener('click', function(e){
+        e.preventDefault();
+        openUrl(a.getAttribute('data-url'));
+      });
+    });
+    var bg = (D.colors && D.colors.bg) || "#DCEBFA";
+    if (tg){
+      try{ tg.ready(); }catch(e){}
+      try{ tg.expand(); }catch(e){}
+      try{ tg.setHeaderColor(bg); }catch(e){}
+      try{ tg.setBackgroundColor(bg); }catch(e){}
+    } else {
+      send("web_app_ready");
+      send("web_app_expand");
+      send("web_app_set_header_color", {color: bg});
+      send("web_app_set_background_color", {color: bg});
+    }
+  }
+})();
+</script>
+</body>
+</html>
