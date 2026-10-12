@@ -133,17 +133,31 @@ footer{margin-top:40px;text-align:center}
 
   function openUrl(url){
     var isTme = url.indexOf("https://t.me/") === 0;
+    var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (tg && tg.platform === "ios");
+    var path = url.replace("https://t.me","");
     if (tg){
       if (isTme){
-        try{ tg.close(); }catch(e){}
-        try{ tg.openTelegramLink(url); }catch(e){}
+        if (isIOS){
+          /* айфон: сначала закрыть, сразу после - открыть ссылку */
+          try{ tg.close(); }catch(e){}
+          try{ tg.openTelegramLink(url); }catch(e){}
+        } else {
+          /* десктоп и андроид: сначала открыть ссылку, затем закрыть с паузой */
+          try{ tg.openTelegramLink(url); }catch(e){}
+          setTimeout(function(){ try{ tg.close(); }catch(e){} }, 400);
+        }
       } else {
         try{ tg.openLink(url); }catch(e){}
       }
     } else {
       if (isTme){
-        send("web_app_close");
-        send("web_app_open_tg_link", {path_full: url.replace("https://t.me","")});
+        if (isIOS){
+          send("web_app_close");
+          send("web_app_open_tg_link", {path_full: path});
+        } else {
+          send("web_app_open_tg_link", {path_full: path});
+          setTimeout(function(){ send("web_app_close"); }, 400);
+        }
       } else {
         send("web_app_open_link", {url: url});
       }
